@@ -33,7 +33,6 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}    
       run: |
-        echo "New Version: $NEW_VERSION !!!"
         echo "iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         echo "fin del login" 
