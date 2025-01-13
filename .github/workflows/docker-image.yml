@@ -31,8 +31,7 @@ jobs:
     - name: docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}        
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}    
       run: |
         echo "New Version: $NEW_VERSION !!!"
         echo "iniciando login"
@@ -40,15 +39,19 @@ jobs:
         echo "fin del login" 
         
     # Construcion de imagen docker
-    # - name: build docker image
-    #   run: |
-    #     docker build -t sinhuesiordia/docker-graphql:0.0.2 .
-    #     docker build -t sinhuesiordia/docker-graphql:latest .
+    - name: build docker image
+      env:    
+        NEW_VERSION: ${{ steps.version.outputs.version }}   
+      run: |
+        docker build -t sinhuesiordia/docker-graphql:$NEW_VERSION .
+        docker build -t sinhuesiordia/docker-graphql:latest .
 
-    # - name: push docker image
-    #   run: |
-    #     docker push sinhuesiordia/docker-graphql:0.0.2
-    #     docker push sinhuesiordia/docker-graphql:latest
+    - name: push docker image
+      env:    
+        NEW_VERSION: ${{ steps.version.outputs.version }}    
+      run: |
+        docker push sinhuesiordia/docker-graphql:$NEW_VERSION
+        docker push sinhuesiordia/docker-graphql:latest
         
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
